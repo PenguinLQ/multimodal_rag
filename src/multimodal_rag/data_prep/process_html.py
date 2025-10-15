@@ -5,9 +5,9 @@ from multimodal_rag.common.config import get_settings
 settings = get_settings()
 
 # Get all HTML files from raw directory
-raw_dir = settings.data_dir + "/raw"
+raw_dir = settings.data_dir + "/" + settings.raw_subdir
 filename_list = [raw_dir+"/"+f for f in os.listdir(raw_dir)]
-processed_dir = settings.data_dir + "/processed"
+processed_dir = settings.data_dir + "/" + settings.processed_subdir
 
 text_content_list = []
 image_content_list = []

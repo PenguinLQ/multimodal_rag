@@ -8,7 +8,7 @@ settings = get_settings()
 
 # Get all HTML files from raw directory
 data_dir = settings.data_dir
-image_dir = data_dir + '/images'
+image_dir = data_dir + '/' + settings.image_subdir
 
 def split_text_with_overlap(text, max_length=256, overlap_percentage=0.25):
         """Split text into chunks with overlap."""

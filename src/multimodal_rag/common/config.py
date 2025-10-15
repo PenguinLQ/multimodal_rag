@@ -6,6 +6,14 @@ class Settings(BaseSettings):
 
     # Application Configuration
     data_dir: str = Field(..., env="DATA_DIR")
+    raw_subdir: str = Field(..., env="RAW_SUBDIR")
+    image_subdir: str = Field(..., env="IMAGE_SUBDIR")
+    processed_subdir: str = Field(..., env="PROCESSED_SUBDIR")
+    text_content_file_name: str = Field(..., env="TEXT_CONTENT_FILE_NAME")
+    image_content_file_name: str = Field(..., env="IMAGE_CONTENT_FILE_NAME")
+
+    # CLIP Configurateion
+    embedding_model: str = Field("ViT-B/32", env="EMBEDDING_MODEL")
 
     class Config:
         """Pydantic configuration."""
