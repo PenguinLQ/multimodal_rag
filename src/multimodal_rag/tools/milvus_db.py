@@ -60,5 +60,5 @@ def search(collection_name: str, query_embedding: List, limit: int, output_field
         output_fields=output_fields)
     return search_result
 
-def close():
+def close_milvus_client():
     milvus_client.close()
