@@ -12,8 +12,15 @@ class Settings(BaseSettings):
     text_content_file_name: str = Field(..., env="TEXT_CONTENT_FILE_NAME")
     image_content_file_name: str = Field(..., env="IMAGE_CONTENT_FILE_NAME")
 
-    # CLIP Configurateion
+    # CLIP Configuration
     embedding_model: str = Field("ViT-B/32", env="EMBEDDING_MODEL")
+
+    # Milvus Configuration
+    db_file: str = Field(..., env="DB_FILE")
+    text_collection_name: str = Field(..., env="TEXT_COLLECTION_NAME")
+    image_collection_name: str = Field(..., env="IMAGE_COLLECTION_NAME")
+    dimension: int = Field(default=512)
+    
 
     class Config:
         """Pydantic configuration."""

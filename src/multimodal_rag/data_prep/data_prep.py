@@ -43,5 +43,3 @@ image_embeddings = encode_image(image_list)
 
 print(text_embeddings.shape)
 print(image_embeddings.shape)
-
-"""Store text and image content and embeddings into Milvus"""
