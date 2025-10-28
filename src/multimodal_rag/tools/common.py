@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import os
 import requests
 import json
+from typing import List
 from multimodal_rag.common.config import get_settings
 
 settings = get_settings()
@@ -206,3 +207,33 @@ def load_from_json(input_file):
     """
     with open(input_file, 'r', encoding='utf-8') as f:
         return json.load(f)
+
+def construct_prompt(query: str, text_results: List[dict], image_results: List[dict]):
+    """
+    Construct a prompt for the LLM to generate a response.
+    """
+
+    text_context = ""
+    for text in text_results:
+        if text_results:
+            text_context = text_context + "**Article title:** " + text['article_title'] + "\n"
+            text_context = text_context + "**Section:**  " + text['section'] + "\n"
+            text_context = text_context + "**Snippet:** " + text['text'] + "\n\n"
+
+    image_context = ""
+    for image in image_results:
+        if image_results:
+            image_context = image_context + "**Article title:** " + image['article_title'] + "\n"
+            image_context = image_context + "**Section:**  " + image['section'] + "\n"
+            image_context = image_context + "**Image Path:**  " + image['image_path'] + "\n"
+            image_context = image_context + "**Image Caption:** " + image['caption'] + "\n\n"
+
+    # construct prompt
+    return f"""Given the query "{query}" and the following relevant snippets:
+
+    {text_context}
+    {image_context}
+
+    Please provide a concise and accurate answer to the query, incorporating relevant information from the provided snippets where possible.
+
+    """
