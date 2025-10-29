@@ -26,7 +26,7 @@ def stream_chat(message, history):
     text_results = search(settings.text_collection_name, query_embedding, 15, text_col_fields)[0]
     # 1.3 search for image results
     image_col_fields = ["id", "article_title", "section", "image_path", "caption"]
-    image_results = search(settings.image_collection_name, query_embedding, 5, image_col_fields)[0]
+    image_results = search(settings.image_collection_name, query_embedding, 1, image_col_fields)[0]
 
     # temp: print results for checking
     print("text results from milvus: \n", text_results)

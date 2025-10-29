@@ -1,7 +1,7 @@
 from multimodal_rag.tools.common import *
 from multimodal_rag.common.config import get_settings
 from multimodal_rag.tools.clip_encoder import *
-from multimodal_rag.tools.milvus_db import create_collections, close_milvus_client, insert_data
+from multimodal_rag.tools.milvus_db import create_collections, create_indexes, close_milvus_client, insert_data
 
 settings = get_settings()
 
@@ -62,6 +62,7 @@ print(len(image_data))
 
 # insert data into milvus
 create_collections(text_collection_name=text_collection_name, image_collection_name=image_collection_name)
+create_indexes(text_collection_name=text_collection_name, image_collection_name=image_collection_name)
 insert_data(collection_name=text_collection_name, data=text_data)
 insert_data(collection_name=image_collection_name, data=image_data)
 close_milvus_client()

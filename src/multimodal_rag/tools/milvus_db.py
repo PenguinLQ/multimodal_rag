@@ -1,4 +1,4 @@
-from pymilvus import MilvusClient, Collection, FieldSchema, CollectionSchema, DataType
+from pymilvus import MilvusClient, FieldSchema, CollectionSchema, DataType
 from typing import List, Dict
 from multimodal_rag.common.config import get_settings
 
@@ -34,6 +34,23 @@ def create_collections(text_collection_name:str, image_collection_name: str):
     # create image collection
     create_milvus_collection(image_collection_name, "image collection", image_col_fields)
 
+def create_indexes(text_collection_name:str, image_collection_name: str):
+    # 1. setup index params
+    index_params = milvus_client.prepare_index_params()
+
+    # 2. Add an index on the vector field.
+    index_params.add_index(
+        field_name="vector",
+        metric_type="COSINE",
+        index_type="IVF_FLAT",
+        index_name="vector_index",
+        params={ "nlist": 128 }
+    )
+
+    # 3. create index file for text_collection and image_collection
+    create_milvus_index(text_collection_name, index_params)
+    create_milvus_index(image_collection_name, index_params)
+
 def create_milvus_collection(name: str, description: str, fields: List[FieldSchema]):
     # Drop the collection if it already exists
     if milvus_client.has_collection(name):
@@ -47,6 +64,13 @@ def create_milvus_collection(name: str, description: str, fields: List[FieldSche
         schema=schema
     )
 
+def create_milvus_index(collection_name: str, index_params):
+    milvus_client.create_index(
+        collection_name=collection_name,
+        index_params=index_params,
+        sync=False
+    )
+
 def insert_data(collection_name: str, data: List[Dict]) -> Dict:
     insert_result = milvus_client.insert(collection_name=collection_name, data=data)
     print("Inserted", insert_result["insert_count"], "entities to collection: ", collection_name)
@@ -55,9 +79,10 @@ def insert_data(collection_name: str, data: List[Dict]) -> Dict:
 def search(collection_name: str, query_embedding: List, limit: int, output_fields: List[str]) -> List[List[dict]]:
     search_result = milvus_client.search(
         collection_name=collection_name,
-        data=query_embedding,
+        data=[query_embedding],
         limit=limit,
-        output_fields=output_fields)
+        output_fields=output_fields,
+        search_params={"metric_type": "COSINE", "params": {}})
     return search_result
 
 def close_milvus_client():
