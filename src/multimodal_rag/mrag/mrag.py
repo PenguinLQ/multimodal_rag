@@ -1,6 +1,6 @@
 import gradio as gr
 import ollama
-from multimodal_rag.tools.common import construct_prompt
+from multimodal_rag.tools.functions import construct_prompt
 from multimodal_rag.tools.clip_encoder import encode_text
 from multimodal_rag.tools.milvus_db import search
 from multimodal_rag.common.config import get_settings

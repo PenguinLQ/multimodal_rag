@@ -1,5 +1,5 @@
 import os
-from multimodal_rag.tools.common import *
+from multimodal_rag.tools.functions import *
 from multimodal_rag.common.config import get_settings
 
 settings = get_settings()

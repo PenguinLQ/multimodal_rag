@@ -1,4 +1,4 @@
-from multimodal_rag.tools.common import *
+from multimodal_rag.tools.functions import *
 from multimodal_rag.common.config import get_settings
 from multimodal_rag.tools.clip_encoder import *
 from multimodal_rag.tools.milvus_db import create_collections, create_indexes, close_milvus_client, insert_data
